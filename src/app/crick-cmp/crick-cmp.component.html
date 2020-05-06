@@ -1,0 +1,86 @@
+
+<button (click) = "showTeamsFunc($event)" style="padding: 15px;">Team List</button>
+<button (click) = "showPointsFunc($event)" style="padding: 15px;">League Table</button>
+<button *ngIf="playersData" (click) = "showMatchReportFunc($event, playersData[0].team_id)" 
+        style="padding: 15px; background-color: palegreen;">{{selTeamName}} - Report</button>
+
+<div *ngIf="teamsData">
+  <h1>Team List</h1>
+  <table style="width:200px; margin-left:auto; margin-right:auto;" cellpadding="4" cellspacing="4">
+    <tr *ngFor = "let data of teamsData">
+      <td><img [src]="hostUrl + data.logo_url" width="60"></td>
+      <td><button (click) = "showPlayersFunc($event, data.id)" style="padding: 15px;">{{data.name}}</button></td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="playersData">
+  <h1>Player List of {{playersData[0].team_name}}</h1>
+  <table style="width:200px; margin-left:auto; margin-right:auto;" cellpadding="4" cellspacing="4">
+    <tr *ngFor = "let data of playersData">
+      <td><img [src]="hostUrl + data.prof_image" height="80" width="60"></td> 
+      <td><button style="padding: 15px;" (click) = "showPlayerDtlsFunc($event, data.id)">{{data.f_name + ' ' + data.l_name}}</button></td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="teamMatchData" style="text-align:center;">
+  <h1>Matches Played By {{selTeamName}}</h1>
+  <table style="width:400px; margin-left:auto; margin-right:auto;" cellpadding="4" cellspacing="4">
+    <tr>
+      <th>Played On</th><th>Team - 1</th><th>Team - 2</th><th>Result</th>
+    </tr>
+    <tr *ngFor = "let data of teamMatchData">
+      <td><span>{{data.played_on}}</span></td> 
+      <td><span>{{data.teamA}}</span></td> 
+      <td><span>{{data.teamB}}</span></td> 
+      <td><span>{{data.is_draw ? 'Draw' : data.winner + ' Won'}}</span></td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="leagueData">
+  <h1>Team's Score Card</h1>
+  <table style="width:600px; margin-left:auto; margin-right:auto;" cellpadding="4" cellspacing="4">
+    <tr>
+      <th colspan="2">Team Name</th><th>Win</th><th>Loss</th><th>Draw</th><th>Score</th>
+    </tr>
+    <tr *ngFor = "let data of leagueData">
+      <td><img [src]="hostUrl + data.logo_url" width="60"></td>
+      <td><span>{{data.name}}</span></td> 
+      <td><span>{{data.won}}</span></td> 
+      <td><span>{{data.lost}}</span></td> 
+      <td><span>{{data.draw}}</span></td> 
+      <td><span>{{data.points}}</span></td> 
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="playerDtls">
+  <h1>{{playerDtls[0].f_name + ' ' + playerDtls[0].l_name}} [{{playerDtls[0].team_name}}]</h1>
+  <table style="width:600px; margin-left:auto; margin-right:auto;" cellpadding="4" cellspacing="4">
+    <tr>
+      <td><img [src]="hostUrl + playerDtls[0].prof_image" width="80" height="150"></td>
+      <td>
+        <table style="width:100%; text-align: left;" cellpadding="2" cellspacing="2">
+          <tr><td>Player Name : </td><td><span>{{playerDtls[0].f_name + ' ' + playerDtls[0].l_name}}</span></td></tr>
+          <tr><td>Player Team : </td><td><span>{{playerDtls[0].team_name}}</span></td></tr>
+          <tr><td>Team Logo : </td><td><img [src]="hostUrl + playerDtls[0].team_logo" width="60"></td></tr>
+          <tr><td>Player Country : </td><td><span>{{playerDtls[0].player_country}}</span></td></tr>
+          <tr><td>Player State : </td><td><span>{{playerDtls[0].player_state}}</span></td></tr>
+          <tr><td>Player History : </td>
+              <td>
+                <table style="width:100%;" cellpadding="2" cellspacing="2">
+                  <tr><td>Total Matches</td><td><span>{{playerDtls[0].history.matches}}</span></td></tr>
+                  <tr><td>Total Run</td><td><span>{{playerDtls[0].history.run}}</span></td></tr>
+                  <tr><td>Highest Run</td><td><span>{{playerDtls[0].history.highest}}</span></td></tr>
+                  <tr><td>No. of Fifties</td><td><span>{{playerDtls[0].history.fifties}}</span></td></tr>
+                  <tr><td>No. of Hundreds</td><td><span>{{playerDtls[0].history.hundreds}}</span></td></tr>
+                </table>
+              </td>
+          </tr>
+        </table>
+      </td> 
+    </tr>
+  </table>
+</div>
